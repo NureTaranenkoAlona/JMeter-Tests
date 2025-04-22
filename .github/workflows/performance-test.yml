@@ -18,9 +18,34 @@ jobs:
         run: |
           wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
           unzip apache-jmeter-5.6.3.zip
-          cd apache-jmeter-5.6.3
+          cd apache-jmeter-5.6.3  # Переходимо в папку apache-jmeter-5.6.3
           echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
+      - name: Debug - List Files
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Contents of root directory:"
+          ls -la
+          echo "Contents of $JMETER_HOME:"
+          ls -la $JMETER_HOME
+          echo "Contents of $JMETER_HOME/bin:"
+          ls -la $JMETER_HOME/bin
       - name: Run JMeter Tests
         run: |
           cd $JMETER_HOME/bin
-          java -jar ApacheJMeter.jar -n -t TaranenkoTest.jmx -l results.jtl
+          java -jar $JMETER_HOME/bin/ApacheJMeter.jar -n -t ../TaranenkoTest.jmx -l results.jtl
+      - name: Upload Results
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: jmeter-results
+          path: results.jtl
+      - name: Generate HTML Report
+        run: |
+          cd $JMETER_HOME/bin
+          java -jar ApacheJMeter.jar -g results.jtl -o report/
+      - name: Upload HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-report
+          path: report/
