@@ -23,6 +23,6 @@ jobs:
       - name: Run JMeter Tests
         run: |
           cd $JMETER_HOME/bin
-          jmeter -n -t TaranenkoTest.jmx -l results.jtl
+          ./jmeter -n -t TaranenkoTest.jmx -l results.jtl
       - name: Publish Test Results
         run: echo "Publishing test results..."
