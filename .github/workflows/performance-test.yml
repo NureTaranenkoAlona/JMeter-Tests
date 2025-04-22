@@ -1,0 +1,22 @@
+name: Performance Tests
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  performance-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Run JMeter Tests
+        run: |
+          chmod +x jmeter.sh
+          ./jmeter.sh -n -t TaranenkoTest.jmx -l results.jtl
+      - name: Publish Test Results
+        run: echo "Publishing test results..."
