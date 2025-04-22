@@ -1,19 +1,34 @@
-name: Performance Tests
+name: JMeter Performance Test
+
 on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+
 jobs:
-  performance-test:
+  jmeter-test:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
       - name: Set up Java
         uses: actions/setup-java@v3
         with:
-          distribution: 'temurin'
           java-version: '17'
-      - name: Run JMeter Tests
+
+      - name: Download Apache JMeter
         run: |
-          java -jar /usr/share/apache-jmeter-5.6/bin/ApacheJMeter.jar -n -t TaranenkoTest.jmx -l results.jtl
+          wget https://downloads.apache.org//jmeter/binaries/apache-jmeter-5.6.3.tgz
+          tar -xzf apache-jmeter-5.6.3.tgz
+
+      - name: Run JMeter test
+        run: |
+          apache-jmeter-5.6.3/bin/jmeter -n -t TaranenkoTest.jmx -l results.jtl -e -o report
+
+      - name: Upload JMeter HTML Report
+        uses: actions/upload-artifact@v3
+        with:
+          name: jmeter-report
+          path: report
