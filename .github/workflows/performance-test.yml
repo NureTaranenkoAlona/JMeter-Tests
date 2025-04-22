@@ -14,9 +14,15 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '17'
+      - name: Download JMeter
+        run: |
+          wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+          tar -xzf apache-jmeter-5.4.1.tgz
+          cd apache-jmeter-5.4.1
+          echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
       - name: Run JMeter Tests
         run: |
-          chmod +x jmeter.sh
-          ./jmeter.sh -n -t TaranenkoTest.jmx -l results.jtl
+          cd $JMETER_HOME/bin
+          jmeter -n -t TaranenkoTest.jmx -l results.jtl
       - name: Publish Test Results
         run: echo "Publishing test results..."
