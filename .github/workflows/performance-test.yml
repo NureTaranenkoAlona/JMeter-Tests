@@ -18,11 +18,8 @@ jobs:
         run: |
           wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
           unzip apache-jmeter-5.6.3.zip
-          cd apache-jmeter-5.6.3
-          echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
+           echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
       - name: Run JMeter Tests
         run: |
           cd $JMETER_HOME/bin
-          ./jmeter -n -t TaranenkoTest.jmx -l results.jtl
-      - name: Publish Test Results
-        run: echo "Publishing test results..."
+          java -jar ApacheJMeter.jar -n -t TaranenkoTest.jmx -l results.jtl
