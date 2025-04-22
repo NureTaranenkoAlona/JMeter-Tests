@@ -17,8 +17,8 @@ jobs:
       - name: Download JMeter
         run: |
           wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.6.3.zip
-          tar -xzf apache-jmeter-5.4.1.tgz
-          cd apache-jmeter-5.4.1
+          unzip apache-jmeter-5.6.3.zip
+          cd apache-jmeter-5.6.3
           echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
       - name: Run JMeter Tests
         run: |
