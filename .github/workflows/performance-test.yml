@@ -16,7 +16,7 @@ jobs:
           java-version: '17'
       - name: Download JMeter
         run: |
-          wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.1.tgz
+          wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.1.zip
           tar -xzf apache-jmeter-5.4.1.tgz
           cd apache-jmeter-5.4.1
           echo "JMETER_HOME=$(pwd)" >> $GITHUB_ENV
