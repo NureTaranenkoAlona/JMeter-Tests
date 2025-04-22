@@ -1,33 +1,27 @@
-name: JMeter Test
+name: Run JMeter Test (Без звіту)
 
 on:
   push:
     branches: [ main ]
 
 jobs:
-  jmeter:
+  jmeter-test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Set up Java
+      - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: '17'
 
-      - name: Download JMeter ZIP
+      - name: Download and extract JMeter
         run: |
           wget https://downloads.apache.org/jmeter/binaries/apache-jmeter-5.6.3.zip
           unzip apache-jmeter-5.6.3.zip
 
-      - name: Run JMeter test
+      - name: Run JMeter
         run: |
-          apache-jmeter-5.6.3/bin/jmeter -n -t TaranenkoTest.jmx -l results.jtl -e -o report
-
-      - name: Upload JMeter HTML Report
-        uses: actions/upload-artifact@v2
-        with:
-          name: jmeter-html-report
-          path: report
+          apache-jmeter-5.6.3/bin/jmeter -n -t TaranenkoTest.jmx -l results.jtl
